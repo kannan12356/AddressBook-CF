@@ -1,0 +1,29 @@
+.register-card{
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 1px 1px 10px #333;
+    width: 600px;
+    margin: 40px auto;
+}
+
+.book-img{
+    background-color: #1f73c1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
+.book-img img{
+    width: 100px;
+    padding: 10px;
+}
+
+.register-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+}

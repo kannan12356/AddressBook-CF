@@ -1,0 +1,31 @@
+.header{
+    background-color: #1f73c1;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.address-book-icon{
+    height: 50px;
+    padding: 5px;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    font-size: 15px;
+}
+
+.menu p{
+    margin: 10px;
+    cursor: pointer;
+    color: #fff;
+}
