@@ -5,12 +5,9 @@
     <cflocation  url="index.cfm" addToken="no">
 </cfif>
 
-<cfinvoke 
-    component="cloud"
-    method="listContact"
-    returnVariable="contactList">
-    <cfinvokeargument  name="userId"  value="#userId#">
-</cfinvoke>
+<cfset ContactList = entityLoad("contact_list", {UserId : userId})>
+<cfset jsonContact = serializeJSON(ContactList)>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,39 +39,40 @@
                         <th>Email ID</th>
                         <th>Phone Number</th>
                     </thead>
-                    
-                    <cfoutput query="contactList">
-                        <tr>
-                            <td>
-                                <cfif contactList.photo != "">
-                                    <img
-                                        class="userImg" 
-                                        src="#contactList.photo#" 
-                                        alt="user photo">
-                                <cfelse>
-                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                </cfif>
-                                
-                            </td>
-                            <td>
-                                #contactList.FirstName# #contactList.LastName#
-                            </td>
-                            <td>
-                                #contactList.EmailId#
-                            </td>
-                            <td>
-                                #contactList.PhonenUmber#
-                            </td>
-                            <td>
-                                <button class="btn" onclick="editContact(#contactList.personId#)">EDIT</button>
-                            </td>
-                            <td>
-                                <button class="btn" onclick="deleteContact(#contactList.personId#)">DELETE</button>
-                            </td>
-                            <td>
-                                <button class="btn" onclick="viewContact(#contactList.personId#)">VIEW</button>
-                            </td>
-                        </tr>
+                    <cfset personArray = deserializeJSON(jsonContact)>
+                    <cfoutput>
+                        <cfloop array="#personArray#" index="person">
+                            <tr>
+                                <td>
+                                    <cfif person.photo != "">
+                                        <img
+                                            class="userImg" 
+                                            src="#person.photo#" 
+                                            alt="user photo">
+                                    <cfelse>
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    </cfif>
+                                </td>
+                                <td>
+                                    #person.FirstName# #person.LastName#
+                                </td>
+                                <td>
+                                    #person.EmailId#
+                                </td>
+                                <td>
+                                    #person.PhonenUmber#
+                                </td>
+                                <td>
+                                    <button class="btn" onclick="editContact(#person.personId#)">EDIT</button>
+                                </td>
+                                <td>
+                                    <button class="btn" onclick="deleteContact(#person.personId#)">DELETE</button>
+                                </td>
+                                <td>
+                                    <button class="btn" onclick="viewContact(#person.personId#)">VIEW</button>
+                                </td>
+                            </tr>
+                        </cfloop>
                     </cfoutput>
                 </table>
             </div>      

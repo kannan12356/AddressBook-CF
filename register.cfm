@@ -1,3 +1,23 @@
+<cfif structKeyExists(form, 'register')>
+
+    <cfset Users = entityLoad("Users", {EmailId : form.emailId})>
+
+    <cfset arrayLength = arrayLen(Users)>
+    
+    <cfif arrayLength eq 0>
+        <cftransaction>
+            <cfset User = entityNew("Users", {fullName : form.FullName, userName : form.userName, emailId : form.emailId, password : hash(form.password)})>
+            <cfset entitySave(User)>
+        </cftransaction>  
+        
+        <cfset session.name = "#User.FullName#">
+        <cfset session.userId = "#User.UserId#">  
+        <cflocation  url="ContactList.cfm" addToken="no">
+    <cfelse>
+        <cflocation  url="index.cfm" addtoken="no">
+    </cfif>
+</cfif>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,21 +78,3 @@
 
 </body>
 </html>
-
-<cfif structKeyExists(form, 'register')>
-    
-    <cfinvoke  
-        component="cloud"
-        method="register"
-        returnVariable = "noOfRecords">
-        <cfinvokeargument name="form" value="#form#">
-    </cfinvoke>
-
-    <cfif noOfRecords eq 0>
-        <cflocation  url="ContactList.cfm" addToken="no">
-    <cfelse>
-        <cflocation  url="index.cfm" addToken="no">
-    </cfif>
-    
-    <cfdump  var="#result#">
-</cfif>

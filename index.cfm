@@ -2,6 +2,26 @@
     <cfset structDelete(session, "userId")>
     <cfset structDelete(session, "name")>
 </cfif>
+
+<cfif structKeyExists(form, "login")>
+    <cfset Users = entityLoad("Users", {userName : form.userName, password : hash(form.password)})>
+    
+    <cfset lengthOfArray = arrayLen(Users)>
+    
+    <cfif lengthOfArray neq 0>
+        <cfoutput>
+            <cfloop array="#Users#" index="User">
+                <cfset session.name = "#User.FullName#">
+                <cfset session.userId = "#User.UserId#">
+            </cfloop>
+        </cfoutput>
+        <cflocation  url="ContactList.cfm" addtoken="no">
+    <cfelse>
+        <p style="color: red; text-align: center">Invalid user name or password</p>
+    </cfif>
+</cfif> 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +34,7 @@
 <body>
     
     <cfinclude  template="header.cfm">
-
+    
     <div class="login-card">
         <div class="book-img">
             <img
@@ -68,17 +88,3 @@
 </body>
 </html>
 
-<cfif structKeyExists(form, "login")>
-    <cfinvoke
-        component="cloud"
-        method="login"
-        returnVariable="loginResult">
-        <cfinvokeargument name="userName" value="#form.userName#">
-        <cfinvokeargument  name="password"  value="#form.password#">
-    </cfinvoke>
-    <cfif loginResult neq 0>
-        <cflocation  url="ContactList.cfm" addToken="no">
-    <cfelse>
-        <p style="color: red; text-align: center">Invalid user name or password</p>
-    </cfif>
-</cfif> 

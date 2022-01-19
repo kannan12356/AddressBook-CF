@@ -1,4 +1,24 @@
     <cfset userId = "#session.userId#">
+
+    <cfif structKeyExists(form, "submit")>
+        <cfif form.userImg != "">
+            <cffile action="upload"
+                fileField="userImg"
+                destination="E:\ColdFusion\cfusion\wwwroot\AddressBook\userImage"
+                result="imgName">
+            <cfset img = "userImage/#imgName.clientFile#">
+        <cfelse>
+            <cfset img = "">
+        </cfif>
+    
+        <cftransaction>
+            <cfset CreateContact = entityNew("contact_list", {UserId : form.userId, FirstName : form.fName, LastName : form.lName,
+            Title : form.title, Gender : form.gender, DOB : form.DOB, Photo : img, Address : form.address, Street : form.street,
+            EmailId : form.emailId, PhoneNumber : form.phoneNumber})>
+            <cfset entitySave(CreateContact)>
+        </cftransaction>      
+        <cflocation url="ContactList.cfm" addtoken="no">
+    </cfif>
     
     <div class="modal-content">
         <div class="contact">
@@ -60,13 +80,3 @@
             <i class="fa fa-user-circle-o" aria-hidden="true"></i>
         </div>
     </div>
-
-    <cfif structKeyExists(form, "submit")>
-        <cfinvoke  
-            component="cloud"
-            method="createContact"
-            returnVariable="createResult">
-            <cfinvokeargument  name="form"  value="#form#">
-        </cfinvoke>
-        <cflocation url="ContactList.cfm" addtoken="no">
-    </cfif>

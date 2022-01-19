@@ -1,12 +1,7 @@
 <cfif structKeyExists(url, "Id")>
     <cfset personId = url.Id>
     
-    <cfinvoke  
-        component="cloud"
-        method="contactDetails"
-        returnVariable="Details">
-        <cfinvokeargument  name="personId"  value="#personId#">
-    </cfinvoke>
+    <cfset Details = entityLoad("contact_list", {PersonId : personId}, true)>
 
     <div class="modal-content">
         <div class="contact">

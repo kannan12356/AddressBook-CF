@@ -5,5 +5,6 @@
     <cfset this.sessionTimeout = "#createTimespan(0,0,45,0)#">
     <cfset this.datasource = "AddressBook">
     <cfset this.ormEnabled = true>
-    <cfset this.ormSettings = {logsql : true}>
+    <cfset this.ormsettings = {}>
+    <cfset this.invokeImplicitAccessor = true>
 </cfcomponent>
