@@ -21,9 +21,15 @@
     <cfinclude  template="header.cfm">
     <div class="contact-list">
         <div class="converter">
-            <p style="color: red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
-            <p style="color: green;"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
-            <p style="color: gray;"><i class="fa fa-print" aria-hidden="true"></i></p>
+            <a href="CreatePdf.cfm">
+                <p style="color: red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
+            </a>
+            <a href="CreateExcel.cfm">
+                <p style="color: green;"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
+            </a>
+            <a href="Print.cfm">
+                <p style="color: gray;"><i class="fa fa-print" aria-hidden="true"></i></p>
+            </a>
         </div>
         <div class="contact-details">
             <div class="user">
