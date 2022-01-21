@@ -17,7 +17,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
+    margin: 10px 10px 0;
 }
 
 label{
@@ -67,6 +67,7 @@ span{
 .sub-head{
     font-size: 14px;
     color: grey;
+    text-align: center;
 }
 
 .sub-head a{

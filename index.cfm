@@ -51,16 +51,17 @@
                 <p id="message" style="color: red; font-size: 12px"></p>
 
                 <button class="btn" name="login" id="loginBtn">LOGIN</button>
-
-                <p class="sub-head">Or Sign In Using</p>
-
-                <div class="social-btn">
-                    <button class="rnd-btn fb">f</button>
-                    <button class="rnd-btn google">G</button>
-                </div>
-
-                <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
             </form>
+            
+            <div class="social-btn">
+                <button class="rnd-btn fb">f</button>
+                <a href="GoogleLogin.cfm">
+                    <button class="rnd-btn google">G</button>
+                </a>
+            </div>
+
+            <p class="sub-head">Or Sign In Using</p>
+            <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
         </div>
     </div>  
 

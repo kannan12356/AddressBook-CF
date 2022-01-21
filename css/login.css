@@ -30,6 +30,7 @@
 
 .social-btn{
     display: flex;
+    justify-content: center;
 }
 
 .rnd-btn{
