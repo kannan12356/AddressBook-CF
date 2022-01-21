@@ -1,8 +1,3 @@
-<cfif structKeyExists(session, "userId")>
-    <cfset structDelete(session, "userId")>
-    <cfset structDelete(session, "name")>
-</cfif>
-
 <cfif structKeyExists(form, "login")>
     <cfset Users = entityLoad("Users", {userName : form.userName, password : hash(form.password)})>
     
@@ -21,6 +16,9 @@
     </cfif>
 </cfif> 
 
+<cfif structKeyExists(form, "google")>
+    <cflocation  url="GoogleLogin.cfm">
+</cfif>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,17 +49,16 @@
                 <p id="message" style="color: red; font-size: 12px"></p>
 
                 <button class="btn" name="login" id="loginBtn">LOGIN</button>
-            </form>
-            
-            <div class="social-btn">
-                <button class="rnd-btn fb">f</button>
-                <a href="GoogleLogin.cfm">
-                    <button class="rnd-btn google">G</button>
-                </a>
-            </div>
 
-            <p class="sub-head">Or Sign In Using</p>
-            <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
+                
+                <div class="social-btn">
+                    <button class="rnd-btn fb" name="fb">f</button>
+                    <button class="rnd-btn google" name="google">G</button>
+                </div>
+
+                <p class="sub-head">Or Sign In Using</p>
+                <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
+            </form>
         </div>
     </div>  
 
