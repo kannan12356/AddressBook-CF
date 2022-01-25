@@ -16,8 +16,9 @@
     </cfif>
 </cfif> 
 
-<cfif structKeyExists(form, "google")>
-    <cflocation  url="GoogleLogin.cfm">
+<cfif structKeyExists(session, "userId")>
+    <cfset structDelete(session, "userId")>
+    <cfset structDelete(session, "name")>    
 </cfif>
 
 <!DOCTYPE html>
@@ -49,20 +50,23 @@
                 <p id="message" style="color: red; font-size: 12px"></p>
 
                 <button class="btn" name="login" id="loginBtn">LOGIN</button>
-
-                
-                <div class="social-btn">
-                    <button class="rnd-btn fb" name="fb">f</button>
-                    <button class="rnd-btn google" name="google">G</button>
+            </form>
+            <div class="social-btn">
+                    <a href="javascript:void(0);" onclick="FbLogin();" id="fbLink">
+                        <button class="rnd-btn fb" name="fb">f</button>
+                    </a>
+                    <a href="GoogleLogin.cfm">
+                        <button class="rnd-btn google" name="google">G</button>
+                    </a>
                 </div>
 
                 <p class="sub-head">Or Sign In Using</p>
                 <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
-            </form>
         </div>
     </div>  
 
     <script>
+
         document.getElementById("loginBtn").disabled = true;
 
         function userEnter(){
@@ -81,6 +85,52 @@
 
         document.getElementById("password").addEventListener("change", userEnter);
         document.getElementById("userName").addEventListener("change", userEnter);
+
+        window.fbAsyncInit = function() {
+            FB.init({
+            appId      : '2505849812882244',
+            xfbml      : true,
+            version    : 'v12.0'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      
+        function FbLogin() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    getFbUserData();
+                } else {
+                    document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.';
+                }
+            }, {scope: 'email'});
+        }
+      
+        function getFbUserData(){
+            FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'},
+            function (response) {                
+                saveUserData(response);                
+            });
+        }
+
+        // Save user data to the database
+        function saveUserData(userData){
+            var data = JSON.stringify(userData);
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function(){
+                window.location.href = "ContactList.cfm"
+            }
+            xhttp.open("POST", "FbLogin.cfc?method=addUserData&emailId="+userData.email+"&firstName="+userData.first_name+"&lastName="+userData.last_name, true);
+            xhttp.send();
+        }        
     </script>
     
 </body>

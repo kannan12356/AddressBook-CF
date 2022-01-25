@@ -34,19 +34,19 @@
                         <input type="hidden" name="userId" value="#userId#">
                     </cfoutput>
                     <div class="first-div">
-                        <select class="form-control" id="title" name="title" style="margin-top: 13px;">
+                        <select class="form-control" id="title" name="title" style="margin-top: 13px;" required>
                             <option selected value="">Select Title *</option>
                             <option value="Home">Home</option>
                             <option value="Friend">Friend</option>
                         </select>
-                        <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name *">
-                        <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name *">
+                        <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name *" required>
+                        <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name *" required>
                     </div>
                         
                     <div class="second-div">
                         <div class="gender" style="margin-right: 10px;">
                             <label>Gender  *</label>
-                            <select class="form-control" id="gender" name="gender" style="margin-top: 13px;">
+                            <select class="form-control" id="gender" name="gender" style="margin-top: 13px;" required>
                                 <option selected value="">Select</option>
                                 <option value="Male">Male</option>
                                 <option value="feMale">Female</option>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="dob">
                             <label>Date of Birth *</label>
-                            <input type="date" class="form-control" id="dob" name="DOB">
+                            <input type="date" class="form-control" id="dob" name="DOB" required>
                         </div>
                     </div>
                             
@@ -64,12 +64,12 @@
                             
                     <p class="modal-sub-head">Contact Details</p>
                     <div class="contact-div">
-                        <textarea id="address" name="address" cols="20" rows="5" class="form-control" placeholder="Address *"></textarea>
-                        <input type="text" class="form-control" id="street" name="street" placeholder="Street *">
+                        <textarea id="address" name="address" cols="20" rows="5" class="form-control" placeholder="Address *" required></textarea>
+                        <input type="text" class="form-control" id="street" name="street" placeholder="Street *" required>
                     </div>                        
                     <div class="contact-div">
-                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number *">
-                        <input type="text" class="form-control" id="emailId" name="emailId" placeholder="Email ID *">
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number *" required>
+                        <input type="text" class="form-control" id="emailId" name="emailId" placeholder="Email ID *" required>
                     </div>                        
                     <button type="submit" class="btn" name="submit" id="submit">Submit</button>                                    
                 </form>
