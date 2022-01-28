@@ -192,3 +192,27 @@ td i{
     width: 180px;
     margin-left: 10px;
 }
+
+.pdf-icon{
+    color: red;
+}
+
+.excel-icon{
+    color: green;
+}
+
+.print-icon{
+    color: grey;
+}
+
+.title{
+    font-weight: bold;
+}
+
+#title, #gender{
+    margin-top: 13px;
+}
+
+.gender{
+    margin-right: 10px;
+}

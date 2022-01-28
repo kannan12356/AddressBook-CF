@@ -29,7 +29,7 @@
 <cfif structKeyExists(url, "id")>
     <cfset personId = url.Id>
 
-    <cfset userId = "#session.userId#">
+    <cfset userId = session.userId>
 
     <cfset personDetails = entityLoad("contact_list", {PersonId : personId}, true)>
 

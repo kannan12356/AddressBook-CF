@@ -1,8 +1,3 @@
-<cfapplication 
-    name="AddressBook"
-    sessionmanagement="yes"
-    sessiontimeout=#CreateTimeSpan(0,0,45,0)#>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +11,10 @@
 <body>
     <div class="header">
         <div class="logo">
-            <img 
-                src="assets/AddressBookIcon.png" 
-                class="address-book-icon"
-                alt="Address book icon">
-                <p>ADDRESS BOOK</p>
+            <img src="assets/AddressBookIcon.png" class="address-book-icon" alt="Address book icon">
+            <p>ADDRESS BOOK</p>
         </div>
+        
         <div class="menu">
             <cfif structKeyExists(session, 'userId')>
                 <cfoutput>

@@ -6,7 +6,37 @@
 </cfif>
 
 <cfset ContactList = entityLoad("contact_list", {UserId : userId})>
-<cfset jsonContact = serializeJSON(ContactList)>
+
+<cfsavecontent  variable="contactList">
+    <table class="table">
+        <thead>
+            <th></th>
+            <th>Name</th>
+            <th>Email ID</th>
+            <th>Phone Number</th>
+        </thead>
+
+        <cfoutput>
+            <cfloop array="#ContactList#" index="person">
+                <tr>
+                    <td>
+                        <cfif person.photo != "">
+                            <img class="userImg" src="#person.photo#" alt="user photo">
+                        <cfelse>
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        </cfif>
+                    </td>
+                    <td>#person.FirstName# #person.LastName#</td>
+                    <td>#person.EmailId#</td>
+                    <td>#person.PhonenUmber#</td>
+                    <td><button class="btn" onclick="editContact(#person.personId#)">EDIT</button></td>
+                    <td><button class="btn" onclick="deleteContact(#person.personId#)">DELETE</button></td>
+                    <td><button class="btn" onclick="viewContact(#person.personId#)">VIEW</button></td>
+                </tr>
+            </cfloop>
+        </cfoutput>
+    </table>
+</cfsavecontent>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,13 +52,13 @@
     <div class="contact-list">
         <div class="converter">
             <a href="CreatePdf.cfm">
-                <p style="color: red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
+                <p class="pdf-icon"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
             </a>
             <a href="CreateExcel.cfm">
-                <p style="color: green;"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
+                <p class="excel-icon"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
             </a>
             <a href="Print.cfm">
-                <p style="color: gray;"><i class="fa fa-print" aria-hidden="true"></i></p>
+                <p class="print-icon"><i class="fa fa-print" aria-hidden="true"></i></p>
             </a>
         </div>
         <div class="contact-details">
@@ -38,49 +68,9 @@
                 <button class="createBtn" onclick="createContact()">Create Contact</button>
             </div>      
             <div class="Address-details">
-                <table class="table">
-                    <thead>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Email ID</th>
-                        <th>Phone Number</th>
-                    </thead>
-                    <cfset personArray = deserializeJSON(jsonContact)>
-                    <cfoutput>
-                        <cfloop array="#personArray#" index="person">
-                            <tr>
-                                <td>
-                                    <cfif person.photo != "">
-                                        <img
-                                            class="userImg" 
-                                            src="#person.photo#" 
-                                            alt="user photo">
-                                    <cfelse>
-                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                    </cfif>
-                                </td>
-                                <td>
-                                    #person.FirstName# #person.LastName#
-                                </td>
-                                <td>
-                                    #person.EmailId#
-                                </td>
-                                <td>
-                                    #person.PhonenUmber#
-                                </td>
-                                <td>
-                                    <button class="btn" onclick="editContact(#person.personId#)">EDIT</button>
-                                </td>
-                                <td>
-                                    <button class="btn" onclick="deleteContact(#person.personId#)">DELETE</button>
-                                </td>
-                                <td>
-                                    <button class="btn" onclick="viewContact(#person.personId#)">VIEW</button>
-                                </td>
-                            </tr>
-                        </cfloop>
-                    </cfoutput>
-                </table>
+                <cfoutput>
+                    #contactList#
+                </cfoutput>                
             </div>      
         </div>
     </div>

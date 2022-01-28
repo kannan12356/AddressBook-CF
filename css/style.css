@@ -73,3 +73,8 @@ span{
 .sub-head a{
     color: #1f73c1;
 }
+
+#message{
+    color: red; 
+    font-size: 12px
+}

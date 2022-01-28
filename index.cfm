@@ -1,21 +1,3 @@
-<cfif structKeyExists(form, "login")>
-    <cfset Users = entityLoad("Users", {userName : form.userName, password : hash(form.password)})>
-    
-    <cfset lengthOfArray = arrayLen(Users)>
-    
-    <cfif lengthOfArray neq 0>
-        <cfoutput>
-            <cfloop array="#Users#" index="User">
-                <cfset session.name = "#User.FullName#">
-                <cfset session.userId = "#User.UserId#">
-            </cfloop>
-        </cfoutput>
-        <cflocation  url="ContactList.cfm" addtoken="no">
-    <cfelse>
-        <p style="color: red; text-align: center">Invalid user name or password</p>
-    </cfif>
-</cfif> 
-
 <cfif structKeyExists(session, "userId")>
     <cfset structDelete(session, "userId")>
     <cfset structDelete(session, "name")>    
@@ -36,32 +18,30 @@
     
     <div class="login-card">
         <div class="book-img">
-            <img
-                src="assets/AddressBookIcon.png"
-                alt="Address Book"
-                >
+            <img src="assets/AddressBookIcon.png" alt="Address Book">
         </div>
+
         <div class="login-details">
             <p class="title">LOGIN</p>
 
-            <form class="form" action="" method="post">
+            <form class="form" action="cfc/Users.cfc?method=login" method="post">
                 <input type="text" class="form-control" id="userName" name="userName" placeholder="User Name">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                <p id="message" style="color: red; font-size: 12px"></p>
-
+                <p id="message"></p>
                 <button class="btn" name="login" id="loginBtn">LOGIN</button>
             </form>
-            <div class="social-btn">
-                    <a href="javascript:void(0);" onclick="FbLogin();" id="fbLink">
-                        <button class="rnd-btn fb" name="fb">f</button>
-                    </a>
-                    <a href="GoogleLogin.cfm">
-                        <button class="rnd-btn google" name="google">G</button>
-                    </a>
-                </div>
 
-                <p class="sub-head">Or Sign In Using</p>
-                <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
+            <div class="social-btn">
+                <a href="javascript:void(0);" onclick="FbLogin();" id="fbLink">
+                    <button class="rnd-btn fb" name="fb">f</button>
+                </a>
+                <a href="cfc/Users.cfc?method=googleLogin">
+                    <button class="rnd-btn google" name="google">G</button>
+                </a>
+            </div>
+
+            <p class="sub-head">Or Sign In Using</p>
+            <p class="sub-head">Don't have an account? <a href="register.cfm">Register Here</a></p>
         </div>
     </div>  
 
@@ -86,6 +66,7 @@
         document.getElementById("password").addEventListener("change", userEnter);
         document.getElementById("userName").addEventListener("change", userEnter);
 
+        //login with fb
         window.fbAsyncInit = function() {
             FB.init({
             appId      : '2505849812882244',
@@ -128,11 +109,10 @@
             xhttp.onload = function(){
                 window.location.href = "ContactList.cfm"
             }
-            xhttp.open("POST", "FbLogin.cfc?method=addUserData&emailId="+userData.email+"&firstName="+userData.first_name+"&lastName="+userData.last_name, true);
+            xhttp.open("POST", "cfc/Users.cfc?method=fbLogin&emailId="+userData.email+"&firstName="+userData.first_name+"&lastName="+userData.last_name, true);
             xhttp.send();
         }        
     </script>
     
 </body>
 </html>
-
