@@ -7,4 +7,13 @@
     <cfset this.ormEnabled = true>
     <cfset this.ormsettings = {}>
     <cfset this.invokeImplicitAccessor = true>
+    
+    <cffunction name="onRequest" returnType="void"> 
+        <cfargument name="targetPage" type="String" required=true/> 
+        <cfif !structKeyExists(session, 'userId')>
+            <cfinclude  template="index.cfm">
+        <cfelse>
+            <cfinclude  template="#arguments.targetPage#">
+        </cfif>
+    </cffunction>
 </cfcomponent>

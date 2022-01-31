@@ -1,36 +1,6 @@
-<cfif structKeyExists(form, "submit")>
-    
-    <cfif form.userImg != "">
-        <cffile action="upload"
-            fileField="userImg"
-            destination="E:\ColdFusion\cfusion\wwwroot\AddressBook\userImage"
-            result="imgName">
-        <cfset userImg = "userImage/#imgName.clientFile#">
-    <cfelse>
-        <cfset userImg = form.userPhoto>
-    </cfif>
-
-    <cftransaction>
-        <cfset Person = entityLoad("contact_list", {PersonId : form.personId}, true)>
-        <cfset Person.FirstName = form.fName>
-        <cfset Person.LastName = form.lName>
-        <cfset Person.Title = form.title>
-        <cfset Person.Gender = form.gender>
-        <cfset Person.DOB = form.DOB>
-        <cfset Person.Photo = userImg>
-        <cfset Person.Address = form.address>
-        <cfset Person.Street = form.street>
-        <cfset Person.EmailId = form.emailId>
-        <cfset Person.PhoneNumber = form.phoneNumber>
-    </cftransaction>
-    <cflocation  url="ContactList.cfm" addToken="no">
-</cfif>
-
 <cfif structKeyExists(url, "id")>
     <cfset personId = url.Id>
-
     <cfset userId = session.userId>
-
     <cfset personDetails = entityLoad("contact_list", {PersonId : personId}, true)>
 
     <div class="modal-content">
@@ -42,10 +12,9 @@
                 <p class="modal-sub-head">Personal Contact</p>
             </div>
             <cfoutput>
-                <cfset personDetails.DOB = dateFormat(personDetails.DOB, "YYYY-mm-dd")>                    
-                    
                 <div class="modal-contact">
-                    <form action="EditContact.cfm" method="post" enctype="multipart/form-data">                        
+                    <form action="cfc/contact_list.cfc?method=updateContact" method="post" enctype="multipart/form-data">                        
+                        
                         <input type="hidden" name="userId" value="#userId#">
                         <input type="hidden" name="personId" value="#personId#">
                         

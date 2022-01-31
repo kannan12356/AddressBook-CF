@@ -43,7 +43,6 @@
                     </div>
                 </div>
             </cfoutput>
-            
         </div>
 
         <div class="contact-img">

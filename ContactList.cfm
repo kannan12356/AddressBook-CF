@@ -1,11 +1,12 @@
-<cfif structKeyExists(session, "userId")>
-    <cfset userId = "#session.userId#">
-    <cfset userName = "#session.name#">
-<cfelse>
-    <cflocation  url="index.cfm" addToken="no">
-</cfif>
+<cfset userId = "#session.userId#">
+<cfset userName = "#session.name#">
 
-<cfset ContactList = entityLoad("contact_list", {UserId : userId})>
+<cfinvoke
+    component="cfc/contact_list"
+    method="getUserContactList"
+    returnVariable="contactList">
+    <cfinvokeargument  name="userId"  value="#userId#">
+</cfinvoke>
 
 <cfsavecontent  variable="contactList">
     <table class="table">
@@ -15,25 +16,22 @@
             <th>Email ID</th>
             <th>Phone Number</th>
         </thead>
-
-        <cfoutput>
-            <cfloop array="#ContactList#" index="person">
-                <tr>
-                    <td>
-                        <cfif person.photo != "">
-                            <img class="userImg" src="#person.photo#" alt="user photo">
-                        <cfelse>
-                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        </cfif>
-                    </td>
-                    <td>#person.FirstName# #person.LastName#</td>
-                    <td>#person.EmailId#</td>
-                    <td>#person.PhonenUmber#</td>
-                    <td><button class="btn" onclick="editContact(#person.personId#)">EDIT</button></td>
-                    <td><button class="btn" onclick="deleteContact(#person.personId#)">DELETE</button></td>
-                    <td><button class="btn" onclick="viewContact(#person.personId#)">VIEW</button></td>
-                </tr>
-            </cfloop>
+        <cfoutput query="contactList">
+            <tr>
+                <td>
+                    <cfif photo != "">
+                        <img class="userImg" src="#photo#" alt="user photo">
+                    <cfelse>
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </cfif>
+                </td>
+                <td>#FirstName# #LastName#</td>
+                <td>#EmailId#</td>
+                <td>#PhonenUmber#</td>
+                <td><button class="btn" onclick="editContact(#personId#)">EDIT</button></td>
+                <td><button class="btn" onclick="deleteContact(#personId#)">DELETE</button></td>
+                <td><button class="btn" onclick="viewContact(#personId#)">VIEW</button></td>
+            </tr>
         </cfoutput>
     </table>
 </cfsavecontent>
@@ -50,29 +48,29 @@
 <body>
     <cfinclude  template="header.cfm">
     <div class="contact-list">
-        <div class="converter">
-            <a href="CreatePdf.cfm">
-                <p class="pdf-icon"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
-            </a>
-            <a href="CreateExcel.cfm">
-                <p class="excel-icon"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
-            </a>
-            <a href="Print.cfm">
-                <p class="print-icon"><i class="fa fa-print" aria-hidden="true"></i></p>
-            </a>
-        </div>
-        <div class="contact-details">
-            <div class="user">
-                <p><i class="fa fa-user-circle-o" aria-hidden="true"></i></p>
-                <p>Kannan</p>
-                <button class="createBtn" onclick="createContact()">Create Contact</button>
-            </div>      
-            <div class="Address-details">
-                <cfoutput>
-                    #contactList#
-                </cfoutput>                
-            </div>      
-        </div>
+        <cfoutput>
+            <div class="converter">
+                <a href="cfc/contact_list.cfc?method=createPdf&userId=#userId#">
+                    <p class="pdf-icon"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></p>
+                </a>
+                <a href="cfc/contact_list.cfc?method=createExcel&userId=#userId#">
+                    <p class="excel-icon"><i class="fa fa-file-excel-o" aria-hidden="true"></i></p>
+                </a>
+                <a href="cfc/contact_list.cfc?method=print&userId=#userId#">
+                    <p class="print-icon"><i class="fa fa-print" aria-hidden="true"></i></p>
+                </a>
+            </div>
+            <div class="contact-details">
+                <div class="user">
+                    <p><i class="fa fa-user-circle-o" aria-hidden="true"></i></p>
+                    <p>#userName#</p>
+                    <button class="createBtn" onclick="createContact()">Create Contact</button>
+                </div>      
+                <div class="Address-details">
+                    #contactList#        
+                </div>      
+            </div>
+        </cfoutput>
     </div>
     
     <div class="modal" id="modal">
