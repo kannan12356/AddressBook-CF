@@ -31,7 +31,7 @@
             <cfqueryparam value="#form.lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
             <cfqueryparam value="#form.title#" cfSqlType="CF_SQL_LONGVARCHAR">,
             <cfqueryparam value="#form.gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.dob#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            <cfqueryparam value="#form.dob#"  cfSqlType="CF_SQL_DATE">,
             <cfqueryparam value="#img#" cfSqlType="CF_SQL_LONGVARCHAR">,
             <cfqueryparam value="#form.address#" cfSqlType="CF_SQL_LONGVARCHAR">,
             <cfqueryparam value="#form.street#" cfSqlType="CF_SQL_LONGVARCHAR">,
@@ -55,17 +55,17 @@
 
         <cfquery datasource="AddressBook" name="update" result="updateReult">
             Update contact_list set 
-            FirstName = <cfqueryparam value="#form.fName#">,
-            LastName = <cfqueryparam value="#form.lName#">,
-            Title = <cfqueryparam value="#form.title#">,
-            Gender = <cfqueryparam value="#form.gender#">,
-            DOB = <cfqueryparam value="#form.DOB#">,
-            Photo = <cfqueryparam value="#userImg#">,
-            Address = <cfqueryparam value="#form.address#">,
-            Street = <cfqueryparam value="#form.street#">,
-            EmailId = <cfqueryparam value="#form.emailId#">,
-            PhoneNumber = <cfqueryparam value="#form.phoneNumber#">
-            WHERE PersonId = <cfqueryparam value="#form.personId#">
+            FirstName = <cfqueryparam value="#form.fName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            LastName = <cfqueryparam value="#form.lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Title = <cfqueryparam value="#form.title#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Gender = <cfqueryparam value="#form.gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            DOB = <cfqueryparam value="#form.DOB#" cfSqlType="CF_SQL_DATE">,
+            Photo = <cfqueryparam value="#userImg#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Address = <cfqueryparam value="#form.address#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Street = <cfqueryparam value="#form.street#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            EmailId = <cfqueryparam value="#form.emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            PhoneNumber = <cfqueryparam value="#form.phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">
+            WHERE PersonId = <cfqueryparam value="#form.personId#" cfSqlType="CF_SQL_INTEGER">
         </cfquery>
         <cflocation  url="../ContactList.cfm" addToken="no">
     </cffunction>
@@ -78,7 +78,7 @@
             </cfif>
 
             <cfquery datasource="AddressBook" name="delete" result="deleteResult">
-                DELETE from contact_list WHERE PersonId = <cfqueryparam value="#form.personId#">
+                DELETE from contact_list WHERE PersonId = <cfqueryparam value="#form.personId#" cfSqlType="CF_SQL_INTEGER">
             </cfquery>
             <cflocation url="../ContactList.cfm" addToken="no">
         </cfif>
@@ -92,7 +92,7 @@
         <cfargument name="userId">
 
         <cfquery datasource="AddressBook" name="getContactList" result="getContactListResul">
-            SELECT * FROM contact_list Where userId = <cfqueryparam value="#arguments.userId#">
+            SELECT * FROM contact_list Where userId = <cfqueryparam value="#arguments.userId#" cfSqlType="CF_SQL_INTEGER">
         </cfquery>
 
         <cfreturn getContactList>
