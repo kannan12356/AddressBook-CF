@@ -13,36 +13,70 @@
     <cfproperty  name="PhoneNumber" column="PhoneNumber"> 
 
     <cffunction name="createContact" access="remote">
-        <cfif form.userImg != "">
-            <cffile action="upload"
-                fileField="userImg"
-                destination="E:\ColdFusion\cfusion\wwwroot\AddressBook\userImage"
-                result="imgName">
-            <cfset img = "userImage/#imgName.clientFile#">
-        <cfelse>
-            <cfset img = "">
-        </cfif>
+        <cfargument  name="userId">
+        <cfargument  name="title">
+        <cfargument  name="fName">
+        <cfargument  name="lName">
+        <cfargument  name="gender">
+        <cfargument  name="DOB">
+        <cfargument  name="userImg">
+        <cfargument  name="address">
+        <cfargument  name="street">
+        <cfargument  name="phoneNumber">
+        <cfargument  name="emailId">
 
-        <cfquery datasource="AddressBook" name="addContact" result="addContactResult">
-            Insert into contact_list (UserId, FirstName, LastName, Title, Gender, DOB, Photo, Address, Street, EmailId, PhoneNumber)
-            Values
-            (<cfqueryparam value="#form.userId#" cfSqlType="CF_SQL_INTEGER">,
-            <cfqueryparam value="#form.fName#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.title#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.dob#"  cfSqlType="CF_SQL_DATE">,
-            <cfqueryparam value="#img#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.address#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.street#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            <cfqueryparam value="#form.phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">)
+        <cfquery datasource="AddressBook" name="checkContact" result="checkContactResult">
+            SELECT * FROM contact_list Where emailId = <cfqueryparam value="#emailId#" cfSqlType="CF_SQL_LONGVARCHAR">
+            AND phoneNumber = <cfqueryparam value="#phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">
         </cfquery>
+        <cfset recordCount = checkContactResult.recordCount>
+
+        <cfif recordCount eq 0>
+            <cfif userImg != "">
+                <cffile action="upload"
+                    fileField="userImg"
+                    destination="E:\ColdFusion\cfusion\wwwroot\AddressBook\userImage"
+                    result="imgName">
+                <cfset img = "userImage/#imgName.clientFile#">
+            <cfelse>
+                <cfset img = "">
+            </cfif>
+
+            <cfquery datasource="AddressBook" name="addContact" result="addContactResult">
+                Insert into contact_list (UserId, FirstName, LastName, Title, Gender, DOB, Photo, Address, Street, EmailId, PhoneNumber)
+                Values
+                (<cfqueryparam value="#userId#" cfSqlType="CF_SQL_INTEGER">,
+                <cfqueryparam value="#fName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#title#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#dob#"  cfSqlType="CF_SQL_DATE">,
+                <cfqueryparam value="#img#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#address#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#street#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
+                <cfqueryparam value="#phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">)
+            </cfquery>
+        </cfif>
         <cflocation url="../ContactList.cfm" addtoken="no">
     </cffunction>
 
     <cffunction name="updateContact" access="remote">
-        <cfif form.userImg != "">        
+        <cfargument  name="userId">
+        <cfargument  name="title">
+        <cfargument  name="fName">
+        <cfargument  name="lName">
+        <cfargument  name="gender">
+        <cfargument  name="DOB">
+        <cfargument  name="userImg">
+        <cfargument  name="userPhoto">
+        <cfargument  name="address">
+        <cfargument  name="street">
+        <cfargument  name="phoneNumber">
+        <cfargument  name="emailId">
+        <cfargument  name="personId">
+
+        <cfif userImg != "">        
             <cffile action="upload"
                 fileField="userImg"
                 destination="E:\ColdFusion\cfusion\wwwroot\AddressBook\userImage"
@@ -50,35 +84,38 @@
     
             <cfset userImg = "userImage/#imgName.clientFile#">
         <cfelse>
-            <cfset userImg = form.userPhoto>
+            <cfset userImg = userPhoto>
         </cfif>
 
         <cfquery datasource="AddressBook" name="update" result="updateReult">
             Update contact_list set 
-            FirstName = <cfqueryparam value="#form.fName#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            LastName = <cfqueryparam value="#form.lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            Title = <cfqueryparam value="#form.title#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            Gender = <cfqueryparam value="#form.gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            DOB = <cfqueryparam value="#form.DOB#" cfSqlType="CF_SQL_DATE">,
+            FirstName = <cfqueryparam value="#fName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            LastName = <cfqueryparam value="#lName#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Title = <cfqueryparam value="#title#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Gender = <cfqueryparam value="#gender#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            DOB = <cfqueryparam value="#DOB#" cfSqlType="CF_SQL_DATE">,
             Photo = <cfqueryparam value="#userImg#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            Address = <cfqueryparam value="#form.address#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            Street = <cfqueryparam value="#form.street#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            EmailId = <cfqueryparam value="#form.emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
-            PhoneNumber = <cfqueryparam value="#form.phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">
-            WHERE PersonId = <cfqueryparam value="#form.personId#" cfSqlType="CF_SQL_INTEGER">
+            Address = <cfqueryparam value="#address#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            Street = <cfqueryparam value="#street#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            EmailId = <cfqueryparam value="#emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
+            PhoneNumber = <cfqueryparam value="#phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">
+            WHERE PersonId = <cfqueryparam value="#personId#" cfSqlType="CF_SQL_INTEGER">
         </cfquery>
         <cflocation  url="../ContactList.cfm" addToken="no">
     </cffunction>
 
     <cffunction name="deleteContact" access="remote">
+        <cfargument  name="userImg">
+        <cfargument  name="personId">
+
         <cfif structKeyExists(form, "submit")>
-            <cfif form.userImg != "">
+            <cfif userImg != "">
                 <cffile action="delete"
                     file="E:\ColdFusion\cfusion\wwwroot\AddressBook\#userImg#">            
             </cfif>
 
             <cfquery datasource="AddressBook" name="delete" result="deleteResult">
-                DELETE from contact_list WHERE PersonId = <cfqueryparam value="#form.personId#" cfSqlType="CF_SQL_INTEGER">
+                DELETE from contact_list WHERE PersonId = <cfqueryparam value="#personId#" cfSqlType="CF_SQL_INTEGER">
             </cfquery>
             <cflocation url="../ContactList.cfm" addToken="no">
         </cfif>
