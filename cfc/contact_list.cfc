@@ -57,8 +57,13 @@
                 <cfqueryparam value="#emailId#" cfSqlType="CF_SQL_LONGVARCHAR">,
                 <cfqueryparam value="#phoneNumber#" cfSqlType="CF_SQL_LONGVARCHAR">)
             </cfquery>
+            <cflocation url="../ContactList.cfm" addtoken="no">
+        <cfelse>
+            <script>
+                alert('The contact has already existed');
+                window.location.href='../ContactList.cfm';
+            </script>
         </cfif>
-        <cflocation url="../ContactList.cfm" addtoken="no">
     </cffunction>
 
     <cffunction name="updateContact" access="remote">
