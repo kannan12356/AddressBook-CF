@@ -20,7 +20,7 @@
                 <cfoutput>
                     <p><i class="fa fa-user" aria-hidden="true"></i> #session.name#</p>
                 </cfoutput>
-                <a href="index.cfm">
+                <a href="cfc/Users.cfc?method=logout">
                     <p><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</p>
                 </a>
             <cfelse>

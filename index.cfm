@@ -1,8 +1,3 @@
-<cfif structKeyExists(session, "userId")>
-    <cfset structDelete(session, "userId")>
-    <cfset structDelete(session, "name")>    
-</cfif>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -28,6 +28,13 @@
         </cfif>
     </cffunction>
 
+    <cffunction  name="logout" access="remote">
+        <cfset structDelete(session, "userId")>
+        <cfset structDelete(session, "name")>    
+
+        <cflocation  url="../index.cfm" addtoken="no">
+    </cffunction>
+
     <cffunction name="addUser" access="private">
         <cfargument name="fullName" default="">
         <cfargument name="userName" default="">
